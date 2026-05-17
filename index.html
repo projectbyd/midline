@@ -8,17 +8,45 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
 <style>
-/* =======================
-   (CSS KAMU TETAP SAMA)
-   ======================= */
+body{
+  font-family:'DM Sans',sans-serif;
+  margin:0;
+  background:#F9F4EF;
+}
+#root{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-body{font-family:'DM Sans',sans-serif;background:#F9F4EF;margin:0}
-#root{max-width:420px;margin:auto;min-height:100vh;display:flex;flex-direction:column}
+#onboarding{
+  position:fixed;
+  inset:0;
+  background:#5758A6;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
 
-/* onboarding minimal fix */
-#onboarding{position:fixed;inset:0;background:#5758A6;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999}
 #main-app{display:none;flex:1;flex-direction:column}
 #bottomNav{display:none}
+
+.timeline{
+  flex:1;
+  padding:20px;
+}
+.tcard{
+  background:white;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  font-size:14px;
+}
 </style>
 </head>
 
@@ -29,26 +57,46 @@ body{font-family:'DM Sans',sans-serif;background:#F9F4EF;margin:0}
 <!-- ONBOARDING -->
 <div id="onboarding">
   <h1 style="font-family:Fraunces">Mindline ✦</h1>
-  <button id="startBtn">Start</button>
+  <button id="startBtn" style="padding:10px 20px;border-radius:10px;border:none">Start</button>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="main-app">
 
-  <h2 style="padding:20px">App Loaded 🚀</h2>
+  <div style="padding:16px;font-weight:700">App Loaded 🚀</div>
+
+  <div class="timeline" id="timeline"></div>
 
 </div>
 
 </div>
 
 <!-- NAV -->
-<div id="bottomNav">
-  Bottom Nav
-</div>
+<div id="bottomNav">NAV</div>
 
 <script>
+
+let thoughts = [
+  {text:"Export finance report ke Excel"},
+  {text:"Gym jam 7 malam"},
+  {text:"Riset AI tools"}
+];
+
 // =======================
-// SAFE INIT (INI FIX UTAMA)
+// RENDER APP (INI WAJIB)
+// =======================
+
+function renderTimeline(){
+  const el = document.getElementById("timeline");
+  if(!el) return;
+
+  el.innerHTML = thoughts.map(t =>
+    `<div class="tcard">${t.text}</div>`
+  ).join("");
+}
+
+// =======================
+// INIT APP SAFE
 // =======================
 
 function initApp(){
@@ -60,11 +108,12 @@ function initApp(){
     onboard.style.display="none";
     main.style.display="flex";
     nav.style.display="flex";
+    renderTimeline(); // 🔥 IMPORTANT
   }
 }
 
 // =======================
-// ONBOARDING COMPLETE
+// FINISH ONBOARDING
 // =======================
 
 function finishOnboarding(){
@@ -73,10 +122,12 @@ function finishOnboarding(){
   document.getElementById("onboarding").style.display="none";
   document.getElementById("main-app").style.display="flex";
   document.getElementById("bottomNav").style.display="flex";
+
+  renderTimeline(); // 🔥 FIX BLANK PAGE
 }
 
 // =======================
-// EVENTS (SAFE DOM READY)
+// BOOT
 // =======================
 
 window.addEventListener("DOMContentLoaded", () => {
