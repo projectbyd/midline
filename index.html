@@ -8,45 +8,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
 <style>
-body{
-  font-family:'DM Sans',sans-serif;
-  margin:0;
-  background:#F9F4EF;
-}
-#root{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
+body{margin:0;font-family:'DM Sans',sans-serif;background:#F9F4EF}
+#root{max-width:420px;margin:auto;min-height:100vh;display:flex;flex-direction:column}
 
 #onboarding{
-  position:fixed;
-  inset:0;
-  background:#5758A6;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
+  position:fixed;inset:0;background:#5758A6;color:#fff;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:999;
 }
 
 #main-app{display:none;flex:1;flex-direction:column}
 #bottomNav{display:none}
 
-.timeline{
-  flex:1;
-  padding:20px;
-}
-.tcard{
-  background:white;
-  padding:12px;
-  margin-bottom:10px;
-  border-radius:12px;
-  font-size:14px;
-}
+.timeline{padding:16px}
+.card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px}
 </style>
 </head>
 
@@ -57,33 +31,30 @@ body{
 <!-- ONBOARDING -->
 <div id="onboarding">
   <h1 style="font-family:Fraunces">Mindline ✦</h1>
-  <button id="startBtn" style="padding:10px 20px;border-radius:10px;border:none">Start</button>
+  <button id="startBtn">Start</button>
 </div>
 
 <!-- APP -->
 <div id="main-app">
-
   <div style="padding:16px;font-weight:700">App Loaded 🚀</div>
-
   <div class="timeline" id="timeline"></div>
-
 </div>
 
 </div>
 
-<!-- NAV -->
 <div id="bottomNav">NAV</div>
 
 <script>
 
 let thoughts = [
-  {text:"Export finance report ke Excel"},
+  {text:"Export report ke Excel"},
   {text:"Gym jam 7 malam"},
   {text:"Riset AI tools"}
 ];
 
+
 // =======================
-// RENDER APP (INI WAJIB)
+// SAFE RENDER
 // =======================
 
 function renderTimeline(){
@@ -91,52 +62,91 @@ function renderTimeline(){
   if(!el) return;
 
   el.innerHTML = thoughts.map(t =>
-    `<div class="tcard">${t.text}</div>`
+    `<div class="card">${t.text}</div>`
   ).join("");
 }
 
+
 // =======================
-// INIT APP SAFE
+// SAFE BOOT
 // =======================
 
-function initApp(){
+function bootApp(){
+  try {
+    renderTimeline();
+  } catch(e){
+    console.log("render error:", e);
+  }
+}
+
+
+// =======================
+// INIT SAFE (SAFARI FIX)
+// =======================
+
+function init(){
   const onboard = document.getElementById("onboarding");
   const main = document.getElementById("main-app");
   const nav = document.getElementById("bottomNav");
 
-  if(localStorage.getItem("mindline_done")){
-    onboard.style.display="none";
-    main.style.display="flex";
-    nav.style.display="flex";
-    renderTimeline(); // 🔥 IMPORTANT
+  if(!onboard || !main || !nav) return;
+
+  try {
+    const done = localStorage.getItem("mindline_done");
+
+    if(done === "1"){
+      onboard.style.display="none";
+      main.style.display="flex";
+      nav.style.display="flex";
+
+      setTimeout(()=>bootApp(),50);
+    }
+  } catch(e){
+    console.log("storage error:", e);
   }
 }
+
 
 // =======================
 // FINISH ONBOARDING
 // =======================
 
-function finishOnboarding(){
-  localStorage.setItem("mindline_done","1");
+function finish(){
+  try {
+    localStorage.setItem("mindline_done","1");
+  } catch(e){
+    console.log("storage blocked");
+  }
 
-  document.getElementById("onboarding").style.display="none";
-  document.getElementById("main-app").style.display="flex";
-  document.getElementById("bottomNav").style.display="flex";
+  const onboard = document.getElementById("onboarding");
+  const main = document.getElementById("main-app");
+  const nav = document.getElementById("bottomNav");
 
-  renderTimeline(); // 🔥 FIX BLANK PAGE
+  if(onboard) onboard.style.display="none";
+  if(main) main.style.display="flex";
+  if(nav) nav.style.display="flex";
+
+  setTimeout(()=>bootApp(),50);
 }
 
+
 // =======================
-// BOOT
+// STARTUP SAFE (SAFARI FIX)
 // =======================
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", function(){
 
-  initApp();
+  try {
+    init();
 
-  document.getElementById("startBtn").onclick = () => {
-    finishOnboarding();
-  };
+    const btn = document.getElementById("startBtn");
+    if(btn){
+      btn.addEventListener("click", finish);
+    }
+
+  } catch(e){
+    console.log("fatal init error:", e);
+  }
 
 });
 
