@@ -1153,23 +1153,39 @@ function deleteCat(id){
 // ════════════════════════════════
 //  NAV
 // ════════════════════════════════
-function switchView(v){
+function switchView(v) {
   console.log("SWITCH =", v);
 
-  const views=["home","search","insight","category"];
+  const views = ["home", "search", "insight", "category"];
 
-  views.forEach(x=>{
-    const el=document.getElementById("view-"+x);
+  views.forEach(x => {
+    const el = document.getElementById("view-" + x);
     console.log("VIEW:", x, el);
 
-    if(el){
-      el.style.display = (x===v ? "block" : "none");
+    if (el) {
+      el.style.display = (x === v ? "block" : "none");
     }
   });
-}
-  if(v==="insight")renderInsight();
-  if(v==="search")setTimeout(()=>document.getElementById("ssInput").focus(),80);
-  if(v==="category")renderCategoryPage();
+
+  // extra logic per view
+  if (v === "insight") {
+    if (typeof renderInsight === "function") renderInsight();
+  }
+
+  if (v === "search") {
+    setTimeout(() => {
+      const input = document.getElementById("ssInput");
+      if (input) input.focus();
+    }, 80);
+  }
+
+  if (v === "category") {
+    if (typeof renderCategoryPage === "function") renderCategoryPage();
+  }
+
+  if (v === "home") {
+    console.log("HOME ACTIVE");
+  }
 }
 
 // ════════════════════════════════
