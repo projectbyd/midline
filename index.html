@@ -235,10 +235,22 @@ mark{background:rgba(231,197,138,.6);border-radius:2px;padding:0 1px}
 
   <!-- HOME -->
   <div id="view-home" style="display:flex;flex-direction:column;flex:1">
-    <div class="header">
-      <div class="greeting">Hi, <span id="userName">there</span> 👋</div>
-      <div class="logo">Mindline <span style="color:var(--sand)">✦</span></div>
-    </div>
+    <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;">
+  
+  <div>
+    <div class="greeting">Hi, <span id="userName">there</span> 👋</div>
+    <div class="logo">Mindline <span style="color:var(--sand)">✦</span></div>
+  </div>
+
+  <button id="topSearchBtn" style="
+    background:none;
+    border:none;
+    font-size:20px;
+    cursor:pointer;
+    margin-top:4px;
+  ">🔍</button>
+
+</div>
 
     <div class="composer" id="composer">
       <textarea class="comp-ta" id="compTa" rows="2" placeholder="What's on your mind?"></textarea>
@@ -322,10 +334,10 @@ mark{background:rgba(231,197,138,.6);border-radius:2px;padding:0 1px}
 
 <!-- NAV -->
 <nav class="bottom-nav" id="bottomNav" style="display:none">
-  <div class="nav-item" id="nav-search">
-    <span class="nav-icon">🔍</span>
-    <span class="nav-label">Search</span>
-  </div>
+  <div class="nav-item" id="nav-category">
+  <span class="nav-icon">📂</span>
+  <span class="nav-label">Category</span>
+</div>
   <div class="nav-item active" id="nav-home">
     <span class="nav-icon">🏠</span>
     <span class="nav-label">Home</span>
@@ -335,6 +347,22 @@ mark{background:rgba(231,197,138,.6);border-radius:2px;padding:0 1px}
     <span class="nav-label">Insight</span>
   </div>
 </nav>
+
+<!-- CATEGORY VIEW -->
+<div id="view-category" style="display:none;flex-direction:column;flex:1">
+  <div class="header">
+    <div class="greeting">Categories</div>
+    <div class="logo">Mindline ✦</div>
+  </div>
+
+  <div style="padding:16px 16px 90px">
+    <div class="stories-header">
+      <span class="stories-title">Your Categories</span>
+    </div>
+
+    <div id="categoryList"></div>
+  </div>
+</div>
 
 <!-- ALARM -->
 <div class="alarm-ov" id="alarmOv">
@@ -1056,25 +1084,61 @@ function renderSearch(q){
   });
 }
 
+function renderCategoryPage(){
+  const el=document.getElementById("categoryList");
+
+  el.innerHTML=cats.map(c=>`
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px;
+      background:white;
+      border:1px solid var(--border);
+      border-radius:12px;
+      margin-bottom:8px;
+    ">
+      <div>
+        ${c.emoji} <b>${c.name}</b>
+      </div>
+
+      <button onclick="deleteCat('${c.id}')" style="
+        background:none;
+        border:none;
+        color:var(--rose);
+        font-weight:700;
+        cursor:pointer;
+      ">Delete</button>
+    </div>
+  `).join("");
+}
+
+function deleteCat(id){
+  cats=cats.filter(c=>c.id!==id);
+  renderCategoryPage();
+  renderStories();
+}
+
 // ════════════════════════════════
 //  NAV
 // ════════════════════════════════
 function switchView(v){
   curView=v;
-  ["home","search","insight"].forEach(x=>{
+  ["home","search","insight","category"].forEach(x=>{
     const el=document.getElementById("view-"+x);
     el.style.display=x===v?"flex":"none";
     document.getElementById("nav-"+x).classList.toggle("active",x===v);
   });
   if(v==="insight")renderInsight();
   if(v==="search")setTimeout(()=>document.getElementById("ssInput").focus(),80);
+  if(v==="category")renderCategoryPage();
 }
 
 // ════════════════════════════════
 //  EVENT WIRING
 // ════════════════════════════════
 document.getElementById("nav-home").onclick=()=>switchView("home");
-document.getElementById("nav-search").onclick=()=>switchView("search");
+document.getElementById("nav-category").onclick=()=>switchView("category");
 document.getElementById("nav-insight").onclick=()=>switchView("insight");
 
 document.getElementById("postBtn").onclick=doPost;
@@ -1082,7 +1146,9 @@ document.getElementById("compTa").onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key
 document.getElementById("btnCat").onclick=()=>showPanel("cat");
 document.getElementById("btnStatus").onclick=()=>showPanel("status");
 document.getElementById("btnDue").onclick=()=>showPanel("due");
-
+document.getElementById("topSearchBtn").onclick=()=>{
+  switchView("search");
+};
 // Status filter chip — FIXED: using click toggle
 document.getElementById("sfChip").onclick=e=>{
   e.stopPropagation();
