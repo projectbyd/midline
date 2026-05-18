@@ -4,1158 +4,245 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
 <title>Mindline</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
 <style>
 :root{
   --blue:#5758A6;--blue-light:#EEEEF8;--blue-mid:#8485C0;
-  --sand:#E7C58A;--sand-d:#C4993A;--sand-light:#FBF5E9;
-  --green:#86B05D;--green-light:#EEF5E6;
-  --rose:#C77974;--rose-light:#F8EDEC;
-  --beige:#F7E6D4;--brown:#4B3535;
+  --sand:#E7C58A;--sand-d:#C4993A;
+  --green:#86B05D;--rose:#C77974;
   --bg:#F9F4EF;--white:#FFF;--border:#EBE0D5;
   --text:#2E1F1F;--text2:#7A6060;--text3:#A89090;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  display:flex;
+  justify-content:center;
+}
 #root{width:100%;max-width:420px;min-height:100vh;display:flex;flex-direction:column;background:var(--bg)}
 
-/* ── ONBOARDING ── */
-#onboarding{position:fixed;inset:0;background:var(--blue);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;transition:opacity .5s,transform .5s;overflow-y:auto}
-#onboarding.hide{opacity:0;transform:translateY(-20px);pointer-events:none}
-.ob-logo{font-family:'Fraunces',serif;font-size:42px;color:#fff;font-style:italic;letter-spacing:-1px;margin-bottom:8px}
-.ob-sub{color:rgba(255,255,255,.6);font-size:14px;margin-bottom:48px}
-.ob-step{width:100%}
-.ob-label{font-size:11px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
-.ob-title{font-family:'Fraunces',serif;font-size:26px;color:#fff;font-weight:600;margin-bottom:8px;line-height:1.25}
-.ob-desc{font-size:14px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:32px}
-.ob-input{width:100%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 18px;font-size:15px;color:#fff;outline:none;font-family:inherit;margin-bottom:12px}
-.ob-input::placeholder{color:rgba(255,255,255,.4)}
-.ob-input:focus{border-color:rgba(255,255,255,.6)}
-.ob-emoji-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:20px}
-.ob-emoji{height:40px;border-radius:10px;background:rgba(255,255,255,.12);border:1.5px solid transparent;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;user-select:none}
-.ob-emoji.sel{background:rgba(255,255,255,.3);border-color:rgba(255,255,255,.7);transform:scale(1.1)}
-.ob-palette{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.ob-color{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .18s;flex-shrink:0}
-.ob-color.sel{border-color:#fff;transform:scale(1.15)}
-.btn-ob{width:100%;background:#fff;color:var(--blue);font-family:inherit;font-weight:800;font-size:15px;border:none;border-radius:14px;padding:15px;cursor:pointer;margin-top:4px}
-.ob-dots{display:flex;gap:6px;margin-top:20px;justify-content:center}
-.ob-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)}
-.ob-dot.on{background:#fff;width:18px;border-radius:3px;transition:width .2s}
+/* HEADER */
+.header{
+  padding:18px 16px 0;
+}
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.cat-tab{
+  background:var(--blue-light);
+  color:var(--blue);
+  padding:8px 12px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:13px;
+  cursor:pointer;
+}
+.search-btn{
+  font-size:18px;
+  cursor:pointer;
+  padding:6px 10px;
+}
+.logo{
+  font-family:'Fraunces',serif;
+  font-size:26px;
+  margin-top:6px;
+}
 
-/* ── HEADER ── */
-.header{padding:22px 20px 0;flex-shrink:0;background:var(--bg)}
-.header .greeting{font-size:13px;color:var(--text2);font-weight:500}
-.header .logo{font-family:'Fraunces',serif;font-size:26px;font-weight:600;letter-spacing:-.5px;color:var(--text);line-height:1.1}
+/* COMPOSER */
+.composer{
+  margin:14px 16px;
+  background:#fff;
+  border-radius:16px;
+  padding:12px;
+  border:1px solid var(--border);
+}
+textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  resize:none;
+}
+.comp-actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+button{
+  cursor:pointer;
+}
 
-/* ── COMPOSER ── */
-.composer{margin:14px 16px 0;background:var(--white);border-radius:20px;padding:14px 16px;box-shadow:0 2px 20px rgba(87,88,166,.1);border:1.5px solid var(--blue-light)}
-.comp-ta{width:100%;border:none;outline:none;font-size:14px;font-family:inherit;color:var(--text);background:transparent;resize:none;line-height:1.6;min-height:38px;max-height:110px;overflow-y:auto}
-.comp-ta::placeholder{color:var(--text3)}
-.comp-actions{display:flex;align-items:center;gap:6px;margin-top:10px;border-top:1px solid var(--border);padding-top:10px;flex-wrap:wrap}
-.ca-btn{background:none;border:1.5px solid var(--border);border-radius:999px;padding:5px 11px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.ca-btn.on{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
-.post-btn{margin-left:auto;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:8px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s;box-shadow:0 3px 12px rgba(87,88,166,.35)}
-.post-btn:active{transform:scale(.96)}
+/* STORIES */
+.stories{
+  padding:10px 16px;
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
+.story{
+  min-width:70px;
+  text-align:center;
+  cursor:pointer;
+}
+.story-circle{
+  width:50px;height:50px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
 
-/* ── COMPOSE PANEL ── */
-.cpanel{background:var(--white);border-radius:16px;border:1.5px solid var(--border);box-shadow:0 8px 32px rgba(87,88,166,.12);padding:14px;margin:6px 16px 0;animation:fadeUp .18s ease;position:relative;z-index:20}
-.cpanel-title{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
-.cat-list{display:flex;flex-direction:column;gap:2px;max-height:190px;overflow-y:auto}
-.cat-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer;transition:background .12s}
-.cat-row:hover{background:var(--beige)}
-.cat-row.sel{background:var(--blue-light)}
-.cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.nc-row{display:flex;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-.nc-e{width:36px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-size:16px;padding:4px;outline:none;font-family:inherit}
-.nc-n{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;outline:none;font-family:inherit;color:var(--text)}
-.nc-add{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
-.cmini{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
-.cm-dot{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:border .1s}
-.cm-dot.sel{border-color:var(--brown)}
-.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.st-opt{border:1.5px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;font-size:12px;font-weight:700;text-align:center;transition:all .15s;font-family:inherit;background:transparent;color:var(--text2)}
-.due-row{display:flex;gap:8px;align-items:center}
-.due-inp{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:8px 10px;font-size:12px;outline:none;color:var(--text);font-family:inherit;background:var(--bg)}
-.due-clr{background:var(--rose-light);color:var(--rose);border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+/* TIMELINE */
+.timeline{
+  padding:10px 16px 90px;
+  flex:1;
+  overflow-y:auto;
+}
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+}
+.card small{color:var(--text3)}
+.card-text{margin-top:6px}
 
-/* ── STORIES ── */
-.stories-section{padding:16px 16px 0;flex-shrink:0}
-.stories-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.stories-title{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
-.stories-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;cursor:grab;user-select:none}
-.stories-scroll::-webkit-scrollbar{display:none}
-.stories-scroll.dragging{cursor:grabbing}
-.story-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:58px;cursor:pointer;transition:transform .15s;flex-shrink:0;user-select:none}
-.story-item:active{transform:scale(.93)}
-.story-ring{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;border:2.5px solid transparent;transition:all .2s;flex-shrink:0}
-.story-label{font-size:9px;font-weight:700;text-align:center;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.2px}
-.story-count{font-size:8px;color:var(--text3);margin-top:-3px;font-weight:600}
-/* add cat button */
-.story-add{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:58px;cursor:pointer;flex-shrink:0}
-.story-add-ring{width:54px;height:54px;border-radius:50%;background:var(--blue-light);border:2.5px dashed var(--blue-mid);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--blue);transition:all .18s}
-.story-add:hover .story-add-ring{background:var(--blue);color:#fff;border-style:solid}
-.story-add-lbl{font-size:9px;font-weight:700;color:var(--blue-mid);letter-spacing:.2px}
-
-/* ── ADD CATEGORY MODAL ── */
-.addcat-sheet{background:var(--bg);border-radius:24px 24px 0 0;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .25s ease}
-
-/* ── FILTER BAR ── */
-.filter-bar{padding:10px 16px 0;display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
-.filter-bar::-webkit-scrollbar{display:none}
-.filter-label{font-size:11px;font-weight:800;color:var(--text3);white-space:nowrap;letter-spacing:.5px;flex-shrink:0}
-.fchip{background:var(--white);border:1.5px solid var(--border);border-radius:999px;padding:5px 13px;font-size:11px;font-weight:700;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;flex-shrink:0}
-.fchip:hover{border-color:var(--blue-mid);color:var(--blue)}
-.fchip.on{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 2px 10px rgba(87,88,166,.3)}
-
-/* status dropdown */
-.sf-wrap{position:relative;flex-shrink:0}
-.sdrop{background:var(--white);border-radius:14px;border:1.5px solid var(--border);box-shadow:0 8px 28px rgba(87,88,166,.15);padding:6px;position:absolute;z-index:80;top:calc(100% + 6px);left:0;min-width:155px;display:none}
-.sdrop.open{display:block;animation:fadeUp .15s ease}
-.sd-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:9px;cursor:pointer;font-size:12px;font-weight:700;transition:background .12s}
-.sd-row:hover{background:var(--beige)}
-
-/* time panel */
-.time-panel{padding:8px 16px 0;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
-.date-range-row{display:flex;gap:6px;align-items:center;padding:8px 16px 0;flex-shrink:0;flex-wrap:wrap}
-.date-inp{border:1.5px solid var(--border);border-radius:10px;padding:6px 10px;font-size:11px;outline:none;color:var(--text);font-family:inherit;background:var(--white);flex:1;min-width:100px}
-.date-sep{font-size:11px;color:var(--text3);font-weight:700;flex-shrink:0}
-
-/* ── TIMELINE ── */
-.timeline{flex:1;overflow-y:auto;padding:10px 16px 90px;display:flex;flex-direction:column;gap:7px}
-.timeline::-webkit-scrollbar{width:0}
-.t-empty{text-align:center;padding:48px 0;color:var(--text3);font-size:14px;line-height:1.7}
-
-/* card */
-.tcard{background:var(--white);border-radius:14px;border:1px solid var(--border);border-left:4px solid var(--border);padding:11px 13px;cursor:pointer;transition:all .18s;animation:fadeUp .22s ease both}
-.tcard:hover{box-shadow:0 4px 20px rgba(87,88,166,.1);transform:translateY(-1px)}
-.tcard.pinned{box-shadow:0 2px 16px rgba(231,197,138,.4);border-color:var(--sand)}
-.tcard-top{display:flex;align-items:flex-start;gap:9px}
-.tcard-icon{width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.tcard-main{flex:1;min-width:0}
-.tcard-head{display:flex;align-items:center;gap:5px;margin-bottom:3px}
-.tcard-cat{font-size:10px;font-weight:800;letter-spacing:.3px}
-.tcard-time{font-size:10px;color:var(--text3);margin-left:auto;white-space:nowrap;flex-shrink:0;font-weight:500}
-.tcard-text{font-size:13px;line-height:1.55;color:var(--text);font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tcard-foot{display:flex;align-items:center;gap:5px;margin-top:7px;flex-wrap:wrap}
-.st-badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px}
-.due-badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:999px}
-.rep-badge{font-size:10px;color:var(--text3);font-weight:600;display:flex;align-items:center;gap:2px}
-.pin-ico{font-size:11px;margin-left:auto}
-.tc-acts{display:flex;gap:2px;flex-shrink:0;align-self:flex-start}
-.ta-ico{background:none;border:none;cursor:pointer;font-size:14px;opacity:.25;padding:3px;line-height:1;transition:opacity .15s}
-.ta-ico:hover{opacity:1}
-
-/* ── MODAL OVERLAY ── */
-.overlay{position:fixed;inset:0;background:rgba(75,53,53,.45);z-index:200;display:flex;flex-direction:column;justify-content:flex-end;animation:fadeIn .2s ease}
-.overlay.hide{animation:fadeOut .2s ease forwards}
-.sheet{background:var(--bg);border-radius:24px 24px 0 0;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .25s ease}
-.handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;flex-shrink:0}
-.sheet-head{padding:14px 20px 0;display:flex;align-items:flex-start;flex-shrink:0}
-.sheet-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:4px;margin-left:auto;line-height:1}
-.sheet-body{padding:16px 20px;overflow-y:auto;flex:1}
-.modal-thought{font-size:16px;line-height:1.7;color:var(--text);font-weight:600;margin-bottom:12px}
-.modal-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.mst-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.mst{border:1.5px solid var(--border);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;transition:all .15s}
-.thread-lbl{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
-.thread{border-left:2.5px solid var(--border);padding-left:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.r-item{animation:fadeUp .2s ease}
-.r-text{font-size:13px;color:var(--text);line-height:1.55}
-.r-meta{font-size:10px;color:var(--text3);margin-top:2px;font-weight:500}
-.add-reply-row{display:flex;gap:8px;margin-top:4px}
-.reply-ta{flex:1;border:1.5px solid var(--border);border-radius:12px;padding:9px 12px;font-size:13px;resize:none;outline:none;font-family:inherit;color:var(--text);background:var(--white);transition:border .2s}
-.reply-ta:focus{border-color:var(--blue)}
-.reply-send{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
-
-/* ── INSIGHT ── */
-.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ins-card{background:var(--white);border-radius:16px;padding:14px;border:1px solid var(--border)}
-.ins-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;line-height:1}
-.ins-label{font-size:11px;color:var(--text2);font-weight:500;margin-top:4px}
-.ai-card{border-radius:16px;padding:16px;background:linear-gradient(135deg,var(--blue) 0%,#7475C4 100%)}
-.ai-lbl{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:10px}
-.ai-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--sand);flex-shrink:0;margin-top:5px}
-.ai-txt{font-size:13px;color:rgba(255,255,255,.92);line-height:1.5;font-weight:400}
-.bar-chart{background:var(--white);border-radius:16px;padding:14px;border:1px solid var(--border)}
-.bc-ttl{font-size:11px;font-weight:800;color:var(--text2);margin-bottom:10px;letter-spacing:.3px}
-.bc-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.bc-lbl{font-size:11px;color:var(--text2);width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
-.bc-wrap{flex:1;background:var(--beige);border-radius:999px;height:8px;overflow:hidden}
-.bc-bar{height:100%;border-radius:999px;transition:width .6s ease}
-.bc-val{font-size:10px;color:var(--text3);font-weight:700;width:20px;text-align:right}
-
-/* ── SEARCH ── */
-.search-screen{flex:1;display:flex;flex-direction:column;padding-bottom:90px}
-.ss-bar{padding:14px 16px 10px;position:relative}
-.ss-ico{position:absolute;left:27px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--text3)}
-.ss-bar input{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:11px 14px 11px 38px;font-size:14px;color:var(--text);outline:none;font-family:inherit;transition:border .2s;box-shadow:0 2px 12px rgba(87,88,166,.07)}
-.ss-bar input:focus{border-color:var(--blue)}
-.ss-results{flex:1;overflow-y:auto;padding:0 16px}
-
-/* ── NAV ── */
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:rgba(249,244,239,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;align-items:center;padding:10px 0 20px;z-index:100}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px;transition:all .15s}
-.nav-icon{font-size:22px;line-height:1;transition:all .2s}
-.nav-label{font-size:9px;font-weight:800;letter-spacing:.5px;color:var(--text3);text-transform:uppercase}
-.nav-item.active .nav-label{color:var(--blue)}
-.nav-item.active .nav-icon{filter:drop-shadow(0 0 5px rgba(87,88,166,.6))}
-
-/* ── ALARM ── */
-.alarm-ov{position:fixed;inset:0;background:rgba(75,53,53,.55);z-index:999;display:none;align-items:center;justify-content:center;padding:24px}
-.alarm-ov.show{display:flex}
-.alarm-box{background:var(--white);border-radius:24px;padding:32px 24px;max-width:320px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(75,53,53,.2)}
-mark{background:rgba(231,197,138,.6);border-radius:2px;padding:0 1px}
-
-/* highlight reply in search */
-.reply-highlight{background:rgba(231,197,138,.2);border-left:3px solid var(--sand);border-radius:8px;padding:7px 10px;margin-top:6px}
-.reply-hl-text{font-size:12px;color:var(--text2);line-height:1.5}
-.reply-hl-tag{font-size:10px;color:var(--sand-d);font-weight:700;margin-bottom:3px}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeOut{from{opacity:1}to{opacity:0}}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.timeline::-webkit-scrollbar,.sheet-body::-webkit-scrollbar,.cat-list::-webkit-scrollbar,.ss-results::-webkit-scrollbar{width:0}
+/* MODAL */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.4);
+  display:flex;
+  align-items:flex-end;
+}
+.sheet{
+  background:#fff;
+  width:100%;
+  border-radius:20px 20px 0 0;
+  padding:16px;
+}
 </style>
 </head>
+
 <body>
 <div id="root">
 
-<!-- ONBOARDING -->
-<div id="onboarding">
-  <div class="ob-logo">Mindline</div>
-  <div class="ob-sub">capture · organise · follow through</div>
-  <div id="ob-step"></div>
-  <div class="ob-dots" id="ob-dots"></div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div id="catTabBtn" class="cat-tab">📂 Categories</div>
+    <div id="searchBtn" class="search-btn">🔍</div>
+  </div>
+  <div class="logo">Mindline ✦</div>
 </div>
 
-<!-- MAIN APP -->
-<div id="main-app" style="display:none;flex-direction:column;flex:1">
-
-  <!-- HOME -->
-  <div id="view-home" style="display:flex;flex-direction:column;flex:1">
-    <div class="header">
-      <div class="greeting">Hi, <span id="userName">there</span> 👋</div>
-      <div class="logo">Mindline <span style="color:var(--sand)">✦</span></div>
-    </div>
-
-    <div class="composer" id="composer">
-      <textarea class="comp-ta" id="compTa" rows="2" placeholder="What's on your mind?"></textarea>
-      <div class="comp-actions">
-        <button class="ca-btn" id="btnCat">📂 Category</button>
-        <button class="ca-btn" id="btnStatus">● Status</button>
-        <button class="ca-btn" id="btnDue">📅 Due</button>
-        <button class="post-btn" id="postBtn">Post</button>
-      </div>
-    </div>
-    <div id="cpanel-wrap" style="display:none"></div>
-
-    <!-- STORIES -->
-    <div class="stories-section">
-      <div class="stories-header">
-        <span class="stories-title">Categories</span>
-      </div>
-      <div class="stories-scroll" id="storiesEl"></div>
-    </div>
-
-    <!-- FILTER BAR -->
-    <div class="filter-bar">
-      <span class="filter-label">Filter :</span>
-      <div class="sf-wrap" id="sfWrap">
-        <button class="fchip" id="sfChip">Status</button>
-        <div class="sdrop" id="sfDrop"></div>
-      </div>
-      <button class="fchip" id="tfChip">Time</button>
-      <button class="fchip" id="dfChip">Due Date</button>
-      <button class="fchip" id="pfChip">📌 Pinned</button>
-    </div>
-
-    <div id="timePanelWrap" style="display:none">
-      <div class="time-panel">
-        <button class="fchip" data-tp="today">Today</button>
-        <button class="fchip" data-tp="yesterday">Yesterday</button>
-        <button class="fchip" data-tp="week">This Week</button>
-        <button class="fchip" data-tp="month">This Month</button>
-        <button class="fchip" data-tp="custom">Custom Range</button>
-        <button class="fchip" data-tp="" style="color:var(--rose);border-color:var(--rose-light)">✕ Clear</button>
-      </div>
-      <div class="date-range-row" id="customRangeRow" style="display:none">
-        <input type="date" class="date-inp" id="dateFrom"/>
-        <span class="date-sep">→</span>
-        <input type="date" class="date-inp" id="dateTo"/>
-      </div>
-    </div>
-
-    <div class="timeline" id="timeline"></div>
+<!-- COMPOSER -->
+<div class="composer">
+  <textarea id="input" rows="2" placeholder="What's on your mind?"></textarea>
+  <div class="comp-actions">
+    <button onclick="post()">Post</button>
   </div>
-
-  <!-- SEARCH -->
-  <div id="view-search" style="display:none;flex-direction:column;flex:1">
-    <div class="search-screen">
-      <div class="header">
-        <div class="greeting">Search</div>
-        <div class="logo">Mindline <span style="color:var(--sand)">✦</span></div>
-      </div>
-      <div class="ss-bar">
-        <span class="ss-ico">🔍</span>
-        <input type="text" id="ssInput" placeholder="Search thoughts and replies…" autocomplete="off"/>
-      </div>
-      <div class="ss-results" id="ssResults">
-        <div class="t-empty" style="margin-top:24px">Start typing to search…</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- INSIGHT -->
-  <div id="view-insight" style="display:none;flex-direction:column;flex:1">
-    <div class="header">
-      <div class="greeting">Weekly Insight</div>
-      <div class="logo">✦ Mindline</div>
-    </div>
-    <div style="flex:1;overflow-y:auto;padding:14px 16px 90px;display:flex;flex-direction:column;gap:12px" id="insightBody"></div>
-  </div>
-
 </div>
 
-</div><!-- root -->
+<!-- STORIES -->
+<div class="stories" id="stories"></div>
 
-<!-- NAV -->
-<nav class="bottom-nav" id="bottomNav" style="display:none">
-  <div class="nav-item" id="nav-search">
-    <span class="nav-icon">🔍</span>
-    <span class="nav-label">Search</span>
-  </div>
-  <div class="nav-item active" id="nav-home">
-    <span class="nav-icon">🏠</span>
-    <span class="nav-label">Home</span>
-  </div>
-  <div class="nav-item" id="nav-insight">
-    <span class="nav-icon">✦</span>
-    <span class="nav-label">Insight</span>
-  </div>
-</nav>
+<!-- TIMELINE -->
+<div class="timeline" id="timeline"></div>
 
-<!-- ALARM -->
-<div class="alarm-ov" id="alarmOv">
-  <div class="alarm-box">
-    <div style="font-size:48px;margin-bottom:10px">⏰</div>
-    <div style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--rose);margin-bottom:8px">Reminder!</div>
-    <div style="font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:22px" id="alarmTxt"></div>
-    <button style="width:100%;background:var(--rose);color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit" id="alarmDismiss">Got it 👍</button>
-  </div>
 </div>
 
 <script>
-// ════════════════════════════════
-//  CONSTANTS
-// ════════════════════════════════
-const CAT_COLORS=["#5758A6","#86B05D","#C77974","#E7B84B","#00A8AD","#C76B3A","#7565B5","#4E9E7C","#C45A8A","#3A8BC7"];
-const CAT_EMOJIS=["🚀","💼","🏋️","💡","🎧","💰","📚","🌿","🎨","💻","🏠","✈️","🎯","🌊","🔥","⚡","🎵","📱"];
-const ST={
-  ongoing: {label:"Ongoing", color:"#5758A6", bg:"#EEEEF8"},
-  pending: {label:"Pending", color:"#C4993A", bg:"#FBF5E9"},
-  complete:{label:"Complete",color:"#86B05D", bg:"#EEF5E6"},
-  cancel:  {label:"Cancel",  color:"#C77974", bg:"#F8EDEC"},
-};
-
-// ════════════════════════════════
-//  STATE
-// ════════════════════════════════
-let userName="Alara";
+// ================= STATE =================
 let cats=[
-  {id:"c1",name:"Junior",  emoji:"🚀",color:"#5758A6"},
-  {id:"c2",name:"Personal",emoji:"🌿",color:"#86B05D"},
-  {id:"c3",name:"Ideas",   emoji:"💡",color:"#C4993A"},
-  {id:"c4",name:"Dump",    emoji:"🎧",color:"#C77974"},
+  {id:"c1",name:"Work",emoji:"💼",color:"#5758A6"},
+  {id:"c2",name:"Personal",emoji:"🌿",color:"#86B05D"}
 ];
+
 let thoughts=[
-  {id:"t1",text:"Export finance report ke Excel, deadline besok pagi.",catId:"c1",status:"ongoing",pinned:true,at:new Date(Date.now()-172800000).toISOString(),due:null,replies:[{id:"r1",text:"Setelah di-export masih perlu revisi kolom Q3.",at:new Date(Date.now()-86400000).toISOString()},{id:"r2",text:"Menunggu approval dari Pak Budi.",at:new Date(Date.now()-3600000).toISOString()}]},
-  {id:"t2",text:"Gym jam 7 malem, bawa botol minum dan handuk.",catId:"c2",status:"pending",pinned:false,at:new Date(Date.now()-86400000).toISOString(),due:new Date(Date.now()+5400000).toISOString(),replies:[]},
-  {id:"t3",text:"Ide: dashboard track performa tim junior per sprint.",catId:"c3",status:"ongoing",pinned:false,at:new Date(Date.now()-18000000).toISOString(),due:null,replies:[]},
-  {id:"t4",text:"Kenapa workflow approval masih manual? Diotomasi pake Zapier.",catId:"c4",status:"pending",pinned:false,at:new Date(Date.now()-7200000).toISOString(),due:null,replies:[]},
-  {id:"t5",text:"Beli kado ulang tahun mama minggu depan.",catId:"c2",status:"pending",pinned:false,at:new Date(Date.now()-10800000).toISOString(),due:new Date(Date.now()+432000000).toISOString(),replies:[]},
-  {id:"t6",text:"Riset tools AI untuk automated testing di project baru.",catId:"c1",status:"ongoing",pinned:false,at:new Date(Date.now()-21600000).toISOString(),due:null,replies:[{id:"r3",text:"Sudah coba Playwright + Copilot, worth it banget.",at:new Date(Date.now()-1800000).toISOString()}]},
+  {id:1,text:"Finish laporan project",catId:"c1",at:new Date()},
+  {id:2,text:"Gym jam 7 malam",catId:"c2",at:new Date()}
 ];
 
-// compose
-let draftCat=null,draftStatus="ongoing",draftDue="",openPanel=null,ncColor=CAT_COLORS[0];
-// filter
-let fCat=null,fStatus=null,fTime="",fDue=false,fPinned=false,fDateFrom="",fDateTo="";
-// misc
-let firedIds=new Set(),alarmQ=[],curView="home",modalEl=null;
-// onboarding
-let obStep=0,obName="",obEmoji="🚀",obColor=CAT_COLORS[0],obCatName="";
+let selectedCat=null;
 
-// ════════════════════════════════
-//  HELPERS
-// ════════════════════════════════
-const uid=()=>"id"+Date.now()+Math.random().toString(36).slice(2,5);
-const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-function timeAgo(iso){
-  const d=Date.now()-new Date(iso).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);
-  if(m<1)return"just now";if(m<60)return m+"m ago";if(h<24)return h+"h ago";return dy+"d ago";
-}
-function fmtDue(iso){
-  return new Date(iso).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
-}
-const isOD=iso=>iso&&new Date(iso)<new Date();
-function inRange(iso){
-  const d=new Date(iso),now=new Date();
-  if(fTime==="today"){const s=new Date(now);s.setHours(0,0,0,0);return d>=s;}
-  if(fTime==="yesterday"){const s=new Date(now);s.setHours(0,0,0,0);const e=new Date(s);s.setDate(s.getDate()-1);return d>=s&&d<e;}
-  if(fTime==="week"){const s=new Date(now);s.setDate(now.getDate()-7);return d>=s;}
-  if(fTime==="month"){const s=new Date(now);s.setDate(now.getDate()-30);return d>=s;}
-  if(fTime==="custom"){
-    const from=fDateFrom?new Date(fDateFrom):null;
-    const to=fDateTo?new Date(fDateTo+"T23:59:59"):null;
-    if(from&&d<from)return false;
-    if(to&&d>to)return false;
-    return true;
-  }
-  return true;
-}
-function hlText(text,q){
-  if(!q)return esc(text);
-  const lower=text.toLowerCase(),ql=q.toLowerCase(),idx=lower.indexOf(ql);
-  if(idx===-1)return esc(text);
-  return esc(text.slice(0,idx))+"<mark>"+esc(text.slice(idx,idx+ql.length))+"</mark>"+esc(text.slice(idx+ql.length));
+// ================= HELPERS =================
+const uid=()=>Date.now()+Math.random().toString(16).slice(2);
+
+// ================= RENDER CATS =================
+function renderCats(){
+  let el=document.getElementById("stories");
+  el.innerHTML=cats.map(c=>`
+    <div class="story" onclick="filterCat('${c.id}')">
+      <div class="story-circle" style="background:${c.color}22">${c.emoji}</div>
+      <div style="font-size:11px">${c.name}</div>
+    </div>
+  `).join("");
 }
 
-// ════════════════════════════════
-//  ONBOARDING
-// ════════════════════════════════
-function renderOb(){
-  const steps=[
-    ()=>`<div>
-      <div class="ob-title">Capture thoughts<br/>before they disappear.</div>
-      <div class="ob-desc">Mindline is your private timeline for thoughts, tasks, and everything in between.</div>
-      <button class="btn-ob" id="obn">Get Started →</button>
-    </div>`,
-    ()=>`<div>
-      <div class="ob-label">Step 1 of 2</div>
-      <div class="ob-title">What should<br/>we call you?</div>
-      <input class="ob-input" id="obNameInp" placeholder="Your name…" value="${esc(obName)}"/>
-      <button class="btn-ob" id="obn">Continue →</button>
-    </div>`,
-    ()=>`<div>
-      <div class="ob-label">Step 2 of 2</div>
-      <div class="ob-title">Create your first<br/>category.</div>
-      <div class="ob-emoji-grid" id="obEmojiGrid">
-        ${CAT_EMOJIS.map(e=>`<div class="ob-emoji${e===obEmoji?" sel":""}" data-e="${e}">${e}</div>`).join("")}
-      </div>
-      <input class="ob-input" id="obCatInp" placeholder="Category name (e.g. Work, Gym…)" value="${esc(obCatName)}"/>
-      <div class="ob-palette" id="obPal">
-        ${CAT_COLORS.map(c=>`<div class="ob-color${c===obColor?" sel":""}" style="background:${c}" data-c="${c}"></div>`).join("")}
-      </div>
-      <button class="btn-ob" id="obn">Start Mindline ✦</button>
-    </div>`,
-  ];
-  document.getElementById("ob-step").innerHTML=steps[obStep]();
-  document.getElementById("ob-dots").innerHTML=[0,1,2].map(i=>`<div class="ob-dot${i===obStep?" on":""}"></div>`).join("");
-  document.getElementById("obn").onclick=()=>{
-    if(obStep===1){obName=document.getElementById("obNameInp").value.trim()||"there";}
-    if(obStep===2){
-      obCatName=document.getElementById("obCatInp").value.trim();
-      if(obCatName)cats.unshift({id:uid(),name:obCatName,emoji:obEmoji,color:obColor});
-      userName=obName;
-      document.getElementById("onboarding").classList.add("hide");
-      setTimeout(()=>document.getElementById("onboarding").style.display="none",500);
-      document.getElementById("main-app").style.display="flex";
-      document.getElementById("bottomNav").style.display="flex";
-      document.getElementById("userName").textContent=userName;
-      renderStories();renderTimeline();
-      return;
-    }
-    obStep++;renderOb();
-  };
-  document.querySelectorAll("#obEmojiGrid .ob-emoji").forEach(el=>{
-    el.onclick=()=>{obEmoji=el.dataset.e;renderOb();};
+// ================= FILTER =================
+function filterCat(id){
+  selectedCat = selectedCat===id?null:id;
+  render();
+}
+
+// ================= POST =================
+function post(){
+  let t=document.getElementById("input").value.trim();
+  if(!t)return;
+
+  thoughts.unshift({
+    id:uid(),
+    text:t,
+    catId:selectedCat||cats[0].id,
+    at:new Date()
   });
-  document.querySelectorAll("#obPal .ob-color").forEach(el=>{
-    el.onclick=()=>{obColor=el.dataset.c;renderOb();};
-  });
-  const ni=document.getElementById("obNameInp");
-  if(ni)ni.onkeydown=e=>{if(e.key==="Enter")document.getElementById("obn").click();};
-  const ci=document.getElementById("obCatInp");
-  if(ci)ci.onkeydown=e=>{if(e.key==="Enter")document.getElementById("obn").click();};
+
+  document.getElementById("input").value="";
+  render();
 }
 
-// ════════════════════════════════
-//  STORIES — with drag-to-reorder + + button
-// ════════════════════════════════
-function renderStories(){
-  const el=document.getElementById("storiesEl");
+// ================= RENDER =================
+function render(){
+  renderCats();
 
-  // build story items
-  let html=cats.map((c,i)=>{
-    const cnt=thoughts.filter(t=>t.catId===c.id).length;
-    const on=fCat===c.id;
-    return`<div class="story-item" data-cid="${c.id}" data-idx="${i}" draggable="true">
-      <div class="story-ring" style="background:${on?c.color:c.color+"22"};border-color:${on?c.color:c.color+"44"};box-shadow:${on?`0 4px 14px ${c.color}55`:"none"}">${c.emoji}</div>
-      <div class="story-label" style="color:${on?c.color:"var(--text3)"}">${esc(c.name)}</div>
-      ${cnt?`<div class="story-count">${cnt}</div>`:""}
-    </div>`;
+  let list=selectedCat
+    ? thoughts.filter(t=>t.catId===selectedCat)
+    : thoughts;
+
+  document.getElementById("timeline").innerHTML=list.map(t=>{
+    let c=cats.find(x=>x.id===t.catId);
+
+    return `
+    <div class="card">
+      <small>${c.emoji} ${c.name} • ${t.at.toLocaleString()}</small>
+      <div class="card-text">${t.text}</div>
+    </div>
+    `;
   }).join("");
-
-  // add-category button at end
-  html+=`<div class="story-add" id="storyAddBtn">
-    <div class="story-add-ring">＋</div>
-    <div class="story-add-lbl">New</div>
-  </div>`;
-
-  el.innerHTML=html;
-
-  // click to filter
-  el.querySelectorAll(".story-item").forEach(s=>{
-    s.onclick=()=>{fCat=fCat===s.dataset.cid?null:s.dataset.cid;renderStories();renderTimeline();};
-  });
-
-  // open add-cat modal
-  document.getElementById("storyAddBtn").onclick=()=>openAddCatModal();
-
-  // drag-to-reorder (mouse)
-  initDragScroll(el);
-  initDragReorder(el);
 }
 
-// scroll by dragging (mouse)
-function initDragScroll(el){
-  let isDown=false,startX,scrollLeft;
-  el.onmousedown=e=>{
-    if(e.target.closest(".story-item,.story-add")){
-      // only scroll if not clicking item
-      isDown=true;startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;el.classList.add("dragging");
-    }
-  };
-  el.onmouseleave=()=>{isDown=false;el.classList.remove("dragging");};
-  el.onmouseup=()=>{isDown=false;el.classList.remove("dragging");};
-  el.onmousemove=e=>{
-    if(!isDown)return;e.preventDefault();
-    const x=e.pageX-el.offsetLeft,walk=(x-startX)*1.2;
-    el.scrollLeft=scrollLeft-walk;
-  };
-}
-
-// drag-to-reorder items
-function initDragReorder(el){
-  let dragSrc=null;
-  el.querySelectorAll(".story-item").forEach(item=>{
-    item.ondragstart=e=>{
-      dragSrc=item;
-      e.dataTransfer.effectAllowed="move";
-      item.style.opacity=".45";
-    };
-    item.ondragend=()=>{item.style.opacity="";dragSrc=null;};
-    item.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect="move";};
-    item.ondrop=e=>{
-      e.preventDefault();
-      if(!dragSrc||dragSrc===item)return;
-      const fromIdx=parseInt(dragSrc.dataset.idx);
-      const toIdx=parseInt(item.dataset.idx);
-      const moved=cats.splice(fromIdx,1)[0];
-      cats.splice(toIdx,0,moved);
-      renderStories();renderTimeline();
-    };
-  });
-}
-
-// ════════════════════════════════
-//  ADD CATEGORY MODAL
-// ════════════════════════════════
-let newCatEmoji="🗂️",newCatColor=CAT_COLORS[0],newCatName="";
-
-function openAddCatModal(){
-  newCatEmoji="🗂️";newCatColor=CAT_COLORS[2];newCatName="";
-  const div=document.createElement("div");
-  div.className="overlay";
-  div.innerHTML=`<div class="sheet">
-    <div class="handle"></div>
-    <div class="sheet-head">
-      <div style="font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--text)">New Category</div>
-      <button class="sheet-close" id="addCatClose">✕</button>
-    </div>
-    <div class="sheet-body">
-      <div class="cpanel-title" style="margin-bottom:8px">Choose an emoji</div>
-      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px" id="acEmojiGrid">
-        ${CAT_EMOJIS.map(e=>`<div style="height:38px;border-radius:10px;background:${e===newCatEmoji?"var(--blue-light)":"var(--beige)"};border:1.5px solid ${e===newCatEmoji?"var(--blue)":"transparent"};font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .12s" data-ace="${e}">${e}</div>`).join("")}
-      </div>
-      <div class="cpanel-title" style="margin-bottom:8px">Category name</div>
-      <input id="acNameInp" placeholder="e.g. Work, Finance, Gym…" style="width:100%;border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-size:14px;outline:none;font-family:inherit;color:var(--text);background:var(--white);margin-bottom:16px"/>
-      <div class="cpanel-title" style="margin-bottom:8px">Color</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px" id="acColorPal">
-        ${CAT_COLORS.map(c=>`<div style="width:32px;height:32px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${c===newCatColor?"var(--brown)":"transparent"};transition:all .12s" data-acc="${c}"></div>`).join("")}
-      </div>
-      <button id="acSubmit" style="width:100%;background:var(--blue);color:#fff;border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(87,88,166,.3)">Add Category ✦</button>
-    </div>
-  </div>`;
-  document.body.appendChild(div);
-  modalEl=div;
-
-  div.querySelector("#addCatClose").onclick=closeModal;
-  div.onclick=e=>{if(e.target===div)closeModal();};
-
-  // emoji pick
-  div.querySelectorAll("[data-ace]").forEach(el=>{
-    el.onclick=()=>{
-      newCatEmoji=el.dataset.ace;
-      div.querySelectorAll("[data-ace]").forEach(x=>{
-        x.style.background=x.dataset.ace===newCatEmoji?"var(--blue-light)":"var(--beige)";
-        x.style.borderColor=x.dataset.ace===newCatEmoji?"var(--blue)":"transparent";
-      });
-    };
-  });
-
-  // color pick
-  div.querySelectorAll("[data-acc]").forEach(el=>{
-    el.onclick=()=>{
-      newCatColor=el.dataset.acc;
-      div.querySelectorAll("[data-acc]").forEach(x=>{
-        x.style.borderColor=x.dataset.acc===newCatColor?"var(--brown)":"transparent";
-      });
-    };
-  });
-
-  const ni=div.querySelector("#acNameInp");
-  ni.focus();
-  ni.onkeydown=e=>{if(e.key==="Enter")div.querySelector("#acSubmit").click();};
-
-  div.querySelector("#acSubmit").onclick=()=>{
-    const name=ni.value.trim();
-    if(!name)return;
-    cats.push({id:uid(),name,emoji:newCatEmoji,color:newCatColor});
-    closeModal();renderStories();
-  };
-}
-
-// ════════════════════════════════
-//  STATUS FILTER DROPDOWN
-// ════════════════════════════════
-function buildSfDrop(){
-  const el=document.getElementById("sfDrop");
-  const chip=document.getElementById("sfChip");
-  let html="";
-  if(fStatus){
-    html+=`<div class="sd-row" data-clear="1" style="color:var(--rose)">✕ Clear filter</div>`;
-  }
-  Object.entries(ST).forEach(([k,v])=>{
-    const on=fStatus===k;
-    html+=`<div class="sd-row" data-ss="${k}" style="background:${on?v.bg:""}">
-      <span style="width:9px;height:9px;border-radius:50%;background:${v.color};display:inline-block;flex-shrink:0"></span>
-      <span style="color:${on?v.color:"var(--text)"};font-weight:${on?"700":"600"}">${v.label}</span>
-      ${on?`<span style="margin-left:auto;color:${v.color}">✓</span>`:""}
-    </div>`;
-  });
-  el.innerHTML=html;
-
-  // update chip style
-  if(fStatus){
-    const v=ST[fStatus];
-    chip.style.background=v.color;chip.style.borderColor=v.color;chip.style.color="#fff";
-    chip.textContent=v.label;
-  } else {
-    chip.style.cssText="";chip.textContent="Status";
-  }
-
-  // bind clicks
-  el.querySelectorAll("[data-clear]").forEach(r=>{
-    r.onclick=e=>{e.stopPropagation();fStatus=null;el.classList.remove("open");buildSfDrop();renderTimeline();};
-  });
-  el.querySelectorAll("[data-ss]").forEach(r=>{
-    r.onclick=e=>{e.stopPropagation();fStatus=r.dataset.ss;el.classList.remove("open");buildSfDrop();renderTimeline();};
-  });
-}
-
-// ════════════════════════════════
-//  COMPOSE
-// ════════════════════════════════
-function updateCatBtn(){
-  const c=cats.find(x=>x.id===draftCat);
-  const b=document.getElementById("btnCat");
-  if(c){b.textContent=c.emoji+" "+c.name;b.style.borderColor=c.color;b.style.color=c.color;b.style.background=c.color+"18";}
-  else{b.textContent="📂 Category";b.style.cssText="";}
-  b.classList.toggle("on",!!c);
-}
-function updateStatusBtn(){
-  const s=ST[draftStatus];
-  const b=document.getElementById("btnStatus");
-  b.textContent="● "+s.label;b.style.borderColor=s.color;b.style.color=s.color;b.style.background=s.bg;
-  b.classList.add("on");
-}
-function updateDueBtn(){
-  const b=document.getElementById("btnDue");
-  if(draftDue){
-    b.textContent="📅 "+fmtDue(new Date(draftDue).toISOString());
-    b.style.color="var(--rose)";b.style.borderColor="var(--rose)";b.classList.add("on");
-  } else {
-    b.textContent="📅 Due";b.style.cssText="";b.classList.remove("on");
-  }
-}
-
-function showPanel(type){
-  const wrap=document.getElementById("cpanel-wrap");
-  if(openPanel===type){wrap.style.display="none";openPanel=null;return;}
-  openPanel=type;wrap.style.display="block";
-
-  if(type==="cat"){
-    wrap.innerHTML=`<div class="cpanel">
-      <div class="cpanel-title">Category</div>
-      <div class="cat-list">
-        ${draftCat?`<div class="cat-row" data-cc=""><span style="font-size:11px;color:var(--text3)">✕ Clear category</span></div>`:""}
-        ${cats.map(c=>`<div class="cat-row${draftCat===c.id?" sel":""}" data-cc="${c.id}">
-          <div class="cat-dot" style="background:${c.color}"></div>
-          <span style="font-size:13px;font-weight:600;color:${draftCat===c.id?c.color:"var(--text)"}">${c.emoji} ${esc(c.name)}</span>
-          ${draftCat===c.id?`<span style="margin-left:auto;color:${c.color};font-size:13px;font-weight:700">✓</span>`:""}
-        </div>`).join("")}
-      </div>
-      <div class="nc-row">
-        <input class="nc-e" id="ncE" value="🗂️" maxlength="2"/>
-        <input class="nc-n" id="ncN" placeholder="Quick add category…"/>
-        <button class="nc-add" id="ncAdd">Add</button>
-      </div>
-      <div class="cmini" id="cmini">
-        ${CAT_COLORS.map(c=>`<div class="cm-dot${c===ncColor?" sel":""}" style="background:${c}" data-c="${c}"></div>`).join("")}
-      </div>
-    </div>`;
-    wrap.querySelectorAll(".cat-row").forEach(r=>{
-      r.onclick=()=>{draftCat=r.dataset.cc||null;updateCatBtn();wrap.style.display="none";openPanel=null;};
-    });
-    wrap.querySelectorAll(".cm-dot").forEach(d=>{
-      d.onclick=()=>{ncColor=d.dataset.c;wrap.querySelectorAll(".cm-dot").forEach(x=>x.classList.toggle("sel",x.dataset.c===ncColor));};
-    });
-    document.getElementById("ncAdd").onclick=()=>{
-      const n=document.getElementById("ncN").value.trim();
-      const e=document.getElementById("ncE").value||"🗂️";
-      if(!n)return;
-      const c={id:uid(),name:n,emoji:e,color:ncColor};
-      cats.push(c);draftCat=c.id;updateCatBtn();renderStories();
-      wrap.style.display="none";openPanel=null;
-    };
-    document.getElementById("ncN").onkeydown=e=>{if(e.key==="Enter")document.getElementById("ncAdd").click();};
-  }
-
-  if(type==="status"){
-    wrap.innerHTML=`<div class="cpanel">
-      <div class="cpanel-title">Status</div>
-      <div class="stgrid">
-        ${Object.entries(ST).map(([k,v])=>`<button class="st-opt" data-sk="${k}"
-          style="border-color:${draftStatus===k?v.color:"var(--border)"};color:${draftStatus===k?v.color:"var(--text2)"};background:${draftStatus===k?v.bg:"transparent"}">
-          <div style="width:8px;height:8px;border-radius:50%;background:${v.color};display:inline-block;margin-right:5px"></div>${v.label}
-        </button>`).join("")}
-      </div>
-    </div>`;
-    wrap.querySelectorAll(".st-opt").forEach(b=>{
-      b.onclick=()=>{draftStatus=b.dataset.sk;updateStatusBtn();wrap.style.display="none";openPanel=null;};
-    });
-  }
-
-  if(type==="due"){
-    wrap.innerHTML=`<div class="cpanel">
-      <div class="cpanel-title">Due Date & Reminder</div>
-      <div class="due-row">
-        <input type="datetime-local" class="due-inp" id="dueInp" value="${draftDue}"/>
-        ${draftDue?`<button class="due-clr" id="dueClear">✕ Clear</button>`:""}
-      </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:8px">⏰ A reminder will pop up when the time arrives.</div>
-    </div>`;
-    document.getElementById("dueInp").oninput=function(){draftDue=this.value;updateDueBtn();};
-    const dcb=document.getElementById("dueClear");
-    if(dcb)dcb.onclick=()=>{draftDue="";updateDueBtn();wrap.style.display="none";openPanel=null;};
-  }
-}
-
-function doPost(){
-  const text=document.getElementById("compTa").value.trim();
-  if(!text)return;
-  thoughts=[{id:uid(),text,catId:draftCat,status:draftStatus,pinned:false,
-    at:new Date().toISOString(),due:draftDue?new Date(draftDue).toISOString():null,replies:[]},...thoughts];
-  document.getElementById("compTa").value="";
-  draftCat=null;draftStatus="ongoing";draftDue="";
-  updateCatBtn();updateStatusBtn();updateDueBtn();
-  document.getElementById("cpanel-wrap").style.display="none";openPanel=null;
-  renderTimeline();renderStories();
-}
-
-// ════════════════════════════════
-//  TIMELINE
-// ════════════════════════════════
-function getFiltered(){
-  let list=[...thoughts];
-  if(fCat)list=list.filter(t=>t.catId===fCat);
-  if(fStatus)list=list.filter(t=>t.status===fStatus);
-  if(fTime)list=list.filter(t=>inRange(t.at));
-  if(fDue)list=list.filter(t=>!!t.due);
-  if(fPinned)list=list.filter(t=>t.pinned);
-  list.sort((a,b)=>{
-    if(a.pinned&&!b.pinned)return -1;
-    if(!a.pinned&&b.pinned)return 1;
-    return new Date(b.at)-new Date(a.at);
-  });
-  return list;
-}
-
-function renderTimeline(){
-  const el=document.getElementById("timeline");
-  const list=getFiltered();
-  if(!list.length){
-    el.innerHTML=`<div class="t-empty">No thoughts here yet.<br/>Start capturing something ✦</div>`;return;
-  }
-  el.innerHTML=list.map((t,i)=>{
-    const cat=cats.find(c=>c.id===t.catId);
-    const st=ST[t.status]||ST.ongoing;
-    const over=isOD(t.due);
-    return`<div class="tcard${t.pinned?" pinned":""}" data-tid="${t.id}" style="border-left-color:${cat?cat.color:"var(--border)"};animation-delay:${i*18}ms">
-      <div class="tcard-top">
-        <div class="tcard-icon" style="background:${cat?cat.color+"22":"var(--beige)"}">${cat?cat.emoji:"💭"}</div>
-        <div class="tcard-main">
-          <div class="tcard-head">
-            <span class="tcard-cat" style="color:${cat?cat.color:"var(--text3)"}">${cat?esc(cat.name):"Uncategorized"}</span>
-            <span class="tcard-time">${timeAgo(t.at)}</span>
-          </div>
-          <div class="tcard-text">${esc(t.text)}</div>
-          <div class="tcard-foot">
-            <span class="st-badge" style="background:${st.bg};color:${st.color}">● ${st.label}</span>
-            ${t.due?`<span class="due-badge" style="background:${over?"#F8EDEC":"#EEF5E6"};color:${over?"#C77974":"#86B05D"}">${over?"⚠️":"⏰"} ${fmtDue(t.due)}</span>`:""}
-            ${t.replies.length?`<span class="rep-badge">💬 ${t.replies.length} progress</span>`:""}
-            ${t.pinned?`<span class="pin-ico">📌</span>`:""}
-          </div>
-        </div>
-        <div class="tc-acts">
-          <button class="ta-ico" data-pin="${t.id}">${t.pinned?"📌":"📍"}</button>
-          <button class="ta-ico" data-del="${t.id}">🗑</button>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-
-  el.querySelectorAll(".tcard").forEach(card=>{
-    card.onclick=e=>{if(e.target.closest(".ta-ico"))return;openDetail(card.dataset.tid,false);};
-  });
-  el.querySelectorAll("[data-pin]").forEach(b=>{
-    b.onclick=e=>{
-      e.stopPropagation();
-      const id=b.dataset.pin;
-      thoughts=thoughts.map(t=>t.id===id?{...t,pinned:!t.pinned}:t);
-      renderTimeline();renderStories();
-    };
-  });
-  el.querySelectorAll("[data-del]").forEach(b=>{
-    b.onclick=e=>{
-      e.stopPropagation();
-      if(!confirm("Delete this thought?"))return;
-      thoughts=thoughts.filter(t=>t.id!==b.dataset.del);
-      renderTimeline();renderStories();
-    };
-  });
-}
-
-// ════════════════════════════════
-//  DETAIL MODAL
-// ════════════════════════════════
-function openDetail(tid, scrollToReplies){
-  const t=thoughts.find(x=>x.id===tid);if(!t)return;
-  const cat=cats.find(c=>c.id===t.catId);
-  const st=ST[t.status]||ST.ongoing;
-  const over=isOD(t.due);
-
-  const div=document.createElement("div");
-  div.className="overlay";
-  div.innerHTML=`<div class="sheet">
-    <div class="handle"></div>
-    <div class="sheet-head">
-      <div>
-        ${cat?`<span style="font-size:18px">${cat.emoji}</span> <span style="font-size:12px;font-weight:800;color:${cat.color};letter-spacing:.3px">${esc(cat.name)}</span>`:`<span style="font-size:12px;color:var(--text3)">Uncategorized</span>`}
-        <div style="font-size:11px;color:var(--text3);margin-top:2px">${timeAgo(t.at)}</div>
-      </div>
-      <button class="sheet-close">✕</button>
-    </div>
-    <div class="sheet-body" id="sheetBody-${t.id}">
-      <div class="modal-thought">${esc(t.text)}</div>
-      <div class="modal-meta">
-        <span class="st-badge" style="background:${st.bg};color:${st.color};font-size:12px;padding:4px 12px">● ${st.label}</span>
-        ${t.due?`<span class="due-badge" style="background:${over?"#F8EDEC":"#EEF5E6"};color:${over?"#C77974":"#86B05D"};font-size:12px;padding:4px 12px">${over?"⚠️ Overdue":"⏰"} ${fmtDue(t.due)}</span>`:""}
-      </div>
-      <div class="mst-row">
-        ${Object.entries(ST).map(([k,v])=>`<button class="mst" data-ms="${k}"
-          style="border-color:${t.status===k?v.color:"var(--border)"};color:${t.status===k?v.color:"var(--text2)"};background:${t.status===k?v.bg:"transparent"}">${v.label}</button>`).join("")}
-      </div>
-      ${t.replies.length?`
-        <div class="thread-lbl">Progress Thread (${t.replies.length})</div>
-        <div class="thread" id="md-thread-${t.id}" style="border-color:${cat?cat.color+"55":"var(--border)"}">
-          ${t.replies.map(r=>`<div class="r-item">
-            <div class="r-text">${esc(r.text)}</div>
-            <div class="r-meta">↩ progress · ${timeAgo(r.at)}</div>
-          </div>`).join("")}
-        </div>`:`<div id="md-thread-${t.id}" style="display:none"></div>`}
-      <div class="add-reply-row">
-        <textarea class="reply-ta" rows="2" placeholder="Add progress or detail… (Ctrl+Enter)" id="rta-${t.id}"></textarea>
-        <button class="reply-send" id="rs-${t.id}">Send</button>
-      </div>
-    </div>
-  </div>`;
-  document.body.appendChild(div);
-  modalEl=div;
-
-  div.querySelector(".sheet-close").onclick=closeModal;
-  div.onclick=e=>{if(e.target===div)closeModal();};
-
-  // status change
-  div.querySelectorAll(".mst").forEach(b=>{
-    b.onclick=()=>{
-      const k=b.dataset.ms;
-      thoughts=thoughts.map(x=>x.id===tid?{...x,status:k}:x);
-      div.querySelectorAll(".mst").forEach(x=>{
-        const v=ST[x.dataset.ms];const on=x.dataset.ms===k;
-        x.style.borderColor=on?v.color:"var(--border)";
-        x.style.color=on?v.color:"var(--text2)";
-        x.style.background=on?v.bg:"transparent";
-      });
-      renderTimeline();
-    };
-  });
-
-  // reply
-  const rSend=div.querySelector(`#rs-${t.id}`);
-  const rTa=div.querySelector(`#rta-${t.id}`);
-  rSend.onclick=()=>{
-    if(!rTa.value.trim())return;
-    const rep={id:uid(),text:rTa.value.trim(),at:new Date().toISOString()};
-    thoughts=thoughts.map(x=>x.id===tid?{...x,replies:[...x.replies,rep]}:x);
-    let th=div.querySelector(`#md-thread-${t.id}`);
-    if(!th||th.style.display==="none"){
-      th=document.createElement("div");th.className="thread";th.id=`md-thread-${t.id}`;
-      th.style.borderColor=cat?cat.color+"55":"var(--border)";
-      const lbl=document.createElement("div");lbl.className="thread-lbl";lbl.textContent="Progress Thread";
-      const ar=div.querySelector(".add-reply-row");
-      ar.parentNode.insertBefore(lbl,ar);ar.parentNode.insertBefore(th,ar);
-    } else {th.style.display="";}
-    const item=document.createElement("div");item.className="r-item";
-    item.innerHTML=`<div class="r-text">${esc(rep.text)}</div><div class="r-meta">↩ progress · just now</div>`;
-    th.appendChild(item);
-    rTa.value="";renderTimeline();
-    // scroll to bottom of thread
-    const sb=div.querySelector(`#sheetBody-${t.id}`);
-    if(sb)sb.scrollTop=sb.scrollHeight;
-  };
-  rTa.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter")rSend.click();};
-
-  // if from search, scroll to replies
-  if(scrollToReplies){
-    setTimeout(()=>{
-      const th=div.querySelector(`#md-thread-${t.id}`);
-      if(th)th.scrollIntoView({behavior:"smooth",block:"start"});
-    },300);
-  }
-}
-
-function closeModal(){
-  if(!modalEl)return;
-  modalEl.classList.add("hide");
-  setTimeout(()=>{if(modalEl){modalEl.remove();modalEl=null;}},220);
-}
-
-// ════════════════════════════════
-//  INSIGHT
-// ════════════════════════════════
-function renderInsight(){
-  const total=thoughts.length,done=thoughts.filter(t=>t.status==="complete").length;
-  const over=thoughts.filter(t=>isOD(t.due)).length,pinned=thoughts.filter(t=>t.pinned).length;
-  const catData=cats.map(c=>({cat:c,cnt:thoughts.filter(t=>t.catId===c.id).length}))
-    .filter(x=>x.cnt>0).sort((a,b)=>b.cnt-a.cnt);
-  const max=catData[0]?catData[0].cnt:1;
-  const ai=[
-    total>3?`You've captured ${total} thoughts so far.`:"Keep capturing your thoughts!",
-    done>0?`Great job! You completed ${done} thought${done>1?"s":""}.`:"No completed thoughts yet — keep going!",
-    over>0?`${over} overdue thought${over>1?"s":""}. Time to revisit!`:"No overdue reminders. You're on track ✦",
-    catData[0]?`"${catData[0].cat.name}" is your most active category.`:"Add categories to organise your flow.",
-  ];
-  const el=document.getElementById("insightBody");
-  el.innerHTML=`
-    <div class="ins-grid">
-      <div class="ins-card" style="border-top:3px solid var(--blue)"><div class="ins-num" style="color:var(--blue)">${total}</div><div class="ins-label">Total Thoughts</div></div>
-      <div class="ins-card" style="border-top:3px solid var(--green)"><div class="ins-num" style="color:var(--green)">${done}</div><div class="ins-label">Completed</div></div>
-      <div class="ins-card" style="border-top:3px solid var(--rose)"><div class="ins-num" style="color:var(--rose)">${over}</div><div class="ins-label">Overdue</div></div>
-      <div class="ins-card" style="border-top:3px solid var(--sand-d)"><div class="ins-num" style="color:var(--sand-d)">${pinned}</div><div class="ins-label">Pinned</div></div>
-    </div>
-    ${catData.length?`<div class="bar-chart">
-      <div class="bc-ttl">ACTIVITY BY CATEGORY</div>
-      ${catData.map(x=>`<div class="bc-row">
-        <span class="bc-lbl">${x.cat.emoji} ${esc(x.cat.name)}</span>
-        <div class="bc-wrap"><div class="bc-bar" style="width:${Math.round(x.cnt/max*100)}%;background:${x.cat.color}"></div></div>
-        <span class="bc-val">${x.cnt}</span>
-      </div>`).join("")}
-    </div>`:""}
-    <div class="ai-card">
-      <div class="ai-lbl">✦ AI Reflection</div>
-      ${ai.map(m=>`<div class="ai-row"><div class="ai-dot"></div><div class="ai-txt">${esc(m)}</div></div>`).join("")}
-    </div>
-  `;
-}
-
-// ════════════════════════════════
-//  SEARCH — shows reply highlights, click opens with replies visible
-// ════════════════════════════════
-function renderSearch(q){
-  const el=document.getElementById("ssResults");
-  if(!q.trim()){
-    el.innerHTML=`<div class="t-empty" style="margin-top:24px">Start typing to search…</div>`;return;
-  }
-  const ql=q.toLowerCase();
-  const matches=thoughts.filter(t=>{
-    const inText=t.text.toLowerCase().includes(ql);
-    const inReply=t.replies.some(r=>r.text.toLowerCase().includes(ql));
-    return inText||inReply;
-  });
-  if(!matches.length){
-    el.innerHTML=`<div class="t-empty" style="margin-top:24px">No results for "<strong>${esc(q)}</strong>"</div>`;return;
-  }
-
-  el.innerHTML=matches.map((t,i)=>{
-    const cat=cats.find(c=>c.id===t.catId);
-    const st=ST[t.status]||ST.ongoing;
-    const inText=t.text.toLowerCase().includes(ql);
-    const matchingReplies=t.replies.filter(r=>r.text.toLowerCase().includes(ql));
-    const hasReplyMatch=matchingReplies.length>0;
-
-    // show all replies if reply matched
-    const allRepliesHtml=hasReplyMatch?`
-      <div style="margin-top:8px;border-left:2.5px solid ${cat?cat.color+"55":"var(--border)"};padding-left:10px;display:flex;flex-direction:column;gap:6px">
-        ${t.replies.map(r=>{
-          const rMatch=r.text.toLowerCase().includes(ql);
-          return`<div style="padding:5px 0">
-            <div style="font-size:12px;color:var(--text);line-height:1.5;${rMatch?"font-weight:600":""}">${hlText(r.text,q)}</div>
-            <div style="font-size:10px;color:var(--text3);margin-top:1px;font-weight:500">↩ progress · ${timeAgo(r.at)}</div>
-          </div>`;
-        }).join("")}
-      </div>`:"";
-
-    return`<div class="tcard" data-tid="${t.id}" data-hasreply="${hasReplyMatch?1:0}" style="border-left-color:${cat?cat.color:"var(--border)"};animation-delay:${i*15}ms">
-      <div class="tcard-top">
-        <div class="tcard-icon" style="background:${cat?cat.color+"22":"var(--beige)"}">${cat?cat.emoji:"💭"}</div>
-        <div class="tcard-main">
-          <div class="tcard-head">
-            <span class="tcard-cat" style="color:${cat?cat.color:"var(--text3)"}">${cat?esc(cat.name):"Uncategorized"}</span>
-            <span class="tcard-time">${timeAgo(t.at)}</span>
-          </div>
-          <div class="tcard-text" style="-webkit-line-clamp:${hasReplyMatch?10:2}">${hlText(t.text,q)}</div>
-          ${allRepliesHtml}
-          <div class="tcard-foot" style="margin-top:7px">
-            <span class="st-badge" style="background:${st.bg};color:${st.color}">● ${st.label}</span>
-            ${hasReplyMatch?`<span class="rep-badge" style="color:var(--sand-d);font-weight:700">💬 Reply matched</span>`:""}
-          </div>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-
-  el.querySelectorAll(".tcard").forEach(card=>{
-    card.onclick=()=>{
-      const hasReply=card.dataset.hasreply==="1";
-      openDetail(card.dataset.tid, hasReply);
-    };
-  });
-}
-
-// ════════════════════════════════
-//  NAV
-// ════════════════════════════════
-function switchView(v){
-  curView=v;
-  ["home","search","insight"].forEach(x=>{
-    const el=document.getElementById("view-"+x);
-    el.style.display=x===v?"flex":"none";
-    document.getElementById("nav-"+x).classList.toggle("active",x===v);
-  });
-  if(v==="insight")renderInsight();
-  if(v==="search")setTimeout(()=>document.getElementById("ssInput").focus(),80);
-}
-
-// ════════════════════════════════
-//  EVENT WIRING
-// ════════════════════════════════
-document.getElementById("nav-home").onclick=()=>switchView("home");
-document.getElementById("nav-search").onclick=()=>switchView("search");
-document.getElementById("nav-insight").onclick=()=>switchView("insight");
-
-document.getElementById("postBtn").onclick=doPost;
-document.getElementById("compTa").onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter")doPost();};
-document.getElementById("btnCat").onclick=()=>showPanel("cat");
-document.getElementById("btnStatus").onclick=()=>showPanel("status");
-document.getElementById("btnDue").onclick=()=>showPanel("due");
-
-// Status filter chip — FIXED: using click toggle
-document.getElementById("sfChip").onclick=e=>{
-  e.stopPropagation();
-  const dd=document.getElementById("sfDrop");
-  const isOpen=dd.classList.contains("open");
-  dd.classList.toggle("open",!isOpen);
-  if(!isOpen)buildSfDrop();
+// ================= HEADER ACTIONS =================
+document.getElementById("catTabBtn").onclick=()=>{
+  let name=prompt("Nama kategori baru:");
+  if(!name)return;
+  cats.push({id:uid(),name,emoji:"📂",color:"#5758A6"});
+  render();
 };
 
-// Time filter
-document.getElementById("tfChip").onclick=()=>{
-  const p=document.getElementById("timePanelWrap");
-  p.style.display=p.style.display==="block"?"none":"block";
+document.getElementById("searchBtn").onclick=()=>{
+  alert("Search mode (bisa kamu upgrade nanti)");
 };
-document.querySelectorAll("[data-tp]").forEach(b=>{
-  b.onclick=()=>{
-    fTime=b.dataset.tp;
-    const cr=document.getElementById("customRangeRow");
-    cr.style.display=fTime==="custom"?"flex":"none";
-    document.querySelectorAll("[data-tp]").forEach(x=>x.classList.toggle("on",x.dataset.tp===fTime&&fTime!==""));
-    document.getElementById("tfChip").classList.toggle("on",!!fTime);
-    if(fTime!=="custom")renderTimeline();
-  };
-});
-document.getElementById("dateFrom").oninput=function(){fDateFrom=this.value;if(fTime==="custom")renderTimeline();};
-document.getElementById("dateTo").oninput=function(){fDateTo=this.value;if(fTime==="custom")renderTimeline();};
 
-// Due / Pinned
-document.getElementById("dfChip").onclick=()=>{fDue=!fDue;document.getElementById("dfChip").classList.toggle("on",fDue);renderTimeline();};
-document.getElementById("pfChip").onclick=()=>{fPinned=!fPinned;document.getElementById("pfChip").classList.toggle("on",fPinned);renderTimeline();};
-
-// Search
-document.getElementById("ssInput").oninput=function(){renderSearch(this.value);};
-
-// Close dropdowns on outside click
-document.addEventListener("click",e=>{
-  const sfWrap=document.getElementById("sfWrap");
-  if(sfWrap&&!sfWrap.contains(e.target))document.getElementById("sfDrop").classList.remove("open");
-  const cpw=document.getElementById("cpanel-wrap");
-  const comp=document.getElementById("composer");
-  if(openPanel&&cpw&&comp&&!comp.contains(e.target)&&!cpw.contains(e.target)){
-    cpw.style.display="none";openPanel=null;
-  }
-});
-
-// ════════════════════════════════
-//  REMINDER
-// ════════════════════════════════
-function checkRem(){
-  const now=Date.now();
-  thoughts.forEach(t=>{
-    if(t.due&&!firedIds.has(t.id)){
-      const diff=new Date(t.due).getTime()-now;
-      if(diff<=0&&diff>-35000){firedIds.add(t.id);alarmQ.push(t);showAlarm();}
-    }
-  });
-}
-function showAlarm(){
-  if(!alarmQ.length)return;
-  document.getElementById("alarmTxt").textContent=alarmQ[0].text;
-  document.getElementById("alarmOv").classList.add("show");
-}
-document.getElementById("alarmDismiss").onclick=()=>{
-  alarmQ.shift();document.getElementById("alarmOv").classList.remove("show");
-  if(alarmQ.length)showAlarm();
-};
-setInterval(checkRem,30000);
-
-// ════════════════════════════════
-//  BOOT
-// ════════════════════════════════
-updateStatusBtn();
-renderOb();
+// INIT
+render();
 </script>
+
 </body>
 </html>
