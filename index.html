@@ -481,24 +481,53 @@ function renderOb(){
       <button class="btn-ob" id="obn">Start Mindline ✦</button>
     </div>`,
   ];
-  document.getElementById("ob-step").innerHTML=steps[obStep]();
-  document.getElementById("ob-dots").innerHTML=[0,1,2].map(i=>`<div class="ob-dot${i===obStep?" on":""}"></div>`).join("");
-  document.getElementById("obn").onclick=()=>{
-    if(obStep===1){obName=document.getElementById("obNameInp").value.trim()||"there";}
-    if(obStep===2){
-      obCatName=document.getElementById("obCatInp").value.trim();
-      if(obCatName)cats.unshift({id:uid(),name:obCatName,emoji:obEmoji,color:obColor});
-      userName=obName;
-      document.getElementById("onboarding").classList.add("hide");
-      setTimeout(()=>document.getElementById("onboarding").style.display="none",500);
+  document.getElementById("ob-step").onclick=(e)=>{
+  if(!e.target || e.target.id!=="obn") return;
+
+  if(obStep===1){
+    const inp=document.getElementById("obNameInp");
+    obName=inp?inp.value.trim()||"there":"there";
+  }
+
+  if(obStep===2){
+    obCatName=document.getElementById("obCatInp").value.trim();
+    if(obCatName){
+      cats.unshift({
+        id:uid(),
+        name:obCatName,
+        emoji:obEmoji,
+        color:obColor
+      });
+    }
+
+    userName=obName;
+    document.getElementById("onboarding").classList.add("hide");
+
+    setTimeout(()=>{
+      document.getElementById("onboarding").style.display="none";
       document.getElementById("main-app").style.display="flex";
       document.getElementById("bottomNav").style.display="flex";
       document.getElementById("userName").textContent=userName;
-      renderStories();renderTimeline();
-      return;
-    }
-    obStep++;renderOb();
-  };
+
+      renderStories();
+      renderTimeline();
+    },500);
+
+    return;
+  }
+
+  obStep++;
+  renderOb();
+};
+setTimeout(()=>{
+  document.querySelectorAll("#obEmojiGrid .ob-emoji").forEach(el=>{
+    el.onclick=()=>{obEmoji=el.dataset.e;renderOb();};
+  });
+
+  document.querySelectorAll("#obPal .ob-color").forEach(el=>{
+    el.onclick=()=>{obColor=el.dataset.c;renderOb();};
+  });
+},0);
   document.querySelectorAll("#obEmojiGrid .ob-emoji").forEach(el=>{
     el.onclick=()=>{obEmoji=el.dataset.e;renderOb();};
   });
