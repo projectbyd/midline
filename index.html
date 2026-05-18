@@ -1222,6 +1222,18 @@ setInterval(checkRem,30000);
 // ════════════════════════════════
 updateStatusBtn();
 renderOb();
+
+console.log("APP LOADED");
+
+document.getElementById("nav-category").onclick=()=>{
+  console.log("CLICK CATEGORY");
+  switchView("category");
+};
+
+document.getElementById("nav-insight").onclick=()=>{
+  console.log("CLICK INSIGHT");
+  switchView("insight");
+};
 </script>
 </body>
 </html>
