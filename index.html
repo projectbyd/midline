@@ -1125,12 +1125,19 @@ function deleteCat(id){
 //  NAV
 // ════════════════════════════════
 function switchView(v){
-  curView=v;
-  ["home","search","insight","category"].forEach(x=>{
+  console.log("SWITCH =", v);
+
+  const views=["home","search","insight","category"];
+
+  views.forEach(x=>{
     const el=document.getElementById("view-"+x);
-    el.style.display=x===v?"flex":"none";
-    document.getElementById("nav-"+x).classList.toggle("active",x===v);
+    console.log("VIEW:", x, el);
+
+    if(el){
+      el.style.display = (x===v ? "block" : "none");
+    }
   });
+}
   if(v==="insight")renderInsight();
   if(v==="search")setTimeout(()=>document.getElementById("ssInput").focus(),80);
   if(v==="category")renderCategoryPage();
